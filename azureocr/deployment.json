@@ -1,0 +1,129 @@
+{
+  "id": "/subscriptions/4b02c5cf-70f7-425d-a63d-6bf8708b1919/resourceGroups/sbuxtips/providers/Microsoft.Resources/deployments/Microsoft.CognitiveServicesFormRecognizer-20250310213211",
+  "name": "Microsoft.CognitiveServicesFormRecognizer-20250310213211",
+  "type": "Microsoft.Resources/deployments",
+  "properties": {
+    "templateHash": "3949272071454756644",
+    "parameters": {
+      "name": {
+        "type": "String",
+        "value": "sbuxtips"
+      },
+      "location": {
+        "type": "String",
+        "value": "eastus"
+      },
+      "resourceGroupName": {
+        "type": "String",
+        "value": "sbuxtips"
+      },
+      "resourceGroupId": {
+        "type": "String",
+        "value": "/subscriptions/4b02c5cf-70f7-425d-a63d-6bf8708b1919/resourceGroups/sbuxtips"
+      },
+      "sku": {
+        "type": "String",
+        "value": "F0"
+      },
+      "tagValues": {
+        "type": "Object",
+        "value": {}
+      },
+      "virtualNetworkType": {
+        "type": "String",
+        "value": "None"
+      },
+      "vnet": {
+        "type": "Object",
+        "value": {}
+      },
+      "ipRules": {
+        "type": "Array",
+        "value": []
+      },
+      "identity": {
+        "type": "Object",
+        "value": {
+          "type": "None"
+        }
+      },
+      "privateEndpoints": {
+        "type": "Array",
+        "value": []
+      },
+      "privateDnsZone": {
+        "type": "String",
+        "value": "privatelink.cognitiveservices.azure.com"
+      },
+      "isCommitmentPlanForDisconnectedContainerEnabled": {
+        "type": "Bool",
+        "value": false
+      },
+      "commitmentPlanForDisconnectedContainer": {
+        "type": "Object",
+        "value": {
+          "current": {},
+          "hostingModel": "DisconnectedContainer",
+          "planType": "CustomInvoice",
+          "autoRenew": true
+        }
+      },
+      "isCommitmentPlanForReadDisconnectedContainerEnabled": {
+        "type": "Bool",
+        "value": false
+      },
+      "commitmentPlanForReadDisconnectedContainer": {
+        "type": "Object",
+        "value": {
+          "current": {},
+          "hostingModel": "DisconnectedContainer",
+          "planType": "Read",
+          "autoRenew": true
+        }
+      },
+      "isCommitmentPlanForPrebuiltDisconnectedContainerEnabled": {
+        "type": "Bool",
+        "value": false
+      },
+      "commitmentPlanForPrebuiltDisconnectedContainer": {
+        "type": "Object",
+        "value": {
+          "current": {},
+          "hostingModel": "DisconnectedContainer",
+          "planType": "PreBuilt",
+          "autoRenew": true
+        }
+      },
+      "uniqueId": {
+        "type": "String",
+        "value": "eace37ba-7b73-4861-81f6-86617998899b"
+      }
+    },
+    "mode": "Incremental",
+    "debugSetting": {
+      "detailLevel": "None"
+    },
+    "provisioningState": "Running",
+    "timestamp": "2025-03-11T01:33:08.9995882Z",
+    "duration": "PT20.2126126S",
+    "correlationId": "dcf83ca9-26d6-4ce9-9fdd-35603ffe3285",
+    "providers": [
+      {
+        "namespace": "Microsoft.CognitiveServices",
+        "resourceTypes": [
+          {
+            "resourceType": "accounts",
+            "locations": [
+              "eastus"
+            ]
+          }
+        ]
+      }
+    ],
+    "dependencies": [],
+    "validationLevel": "Template"
+  },
+  "tags": {
+    "marketplaceItemId": "Microsoft.CognitiveServicesFormRecognizer"
+  }
+}

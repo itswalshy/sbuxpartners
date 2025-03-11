@@ -1,0 +1,19 @@
+[
+  {
+    "id": "/subscriptions/4b02c5cf-70f7-425d-a63d-6bf8708b1919/resourceGroups/sbuxtips/providers/Microsoft.Resources/deployments/Microsoft.CognitiveServicesFormRecognizer-20250310213211/operations/6E716546D2BE5F02",
+    "operationId": "6E716546D2BE5F02",
+    "properties": {
+      "provisioningOperation": "Create",
+      "provisioningState": "Running",
+      "timestamp": "2025-03-11T01:33:09.1452797Z",
+      "duration": "PT19.606314S",
+      "trackingId": "79c5d277-0797-4ab7-900f-b94bd4b9c043",
+      "statusCode": "Created",
+      "targetResource": {
+        "id": "/subscriptions/4b02c5cf-70f7-425d-a63d-6bf8708b1919/resourceGroups/sbuxtips/providers/Microsoft.CognitiveServices/accounts/sbuxtips",
+        "resourceType": "Microsoft.CognitiveServices/accounts",
+        "resourceName": "sbuxtips"
+      }
+    }
+  }
+]
