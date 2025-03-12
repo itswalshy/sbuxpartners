@@ -1,4 +1,4 @@
-run = "npm run dev"
+run = "pnpm dev"
 hidden = [".build", ".config"]
 
 [nix]
@@ -23,6 +23,6 @@ pattern = "**/{*.js,*.jsx,*.ts,*.tsx}"
 start = ["typescript-language-server", "--stdio"]
 
 [deployment]
-run = ["sh", "-c", "npm run start"]
+run = ["sh", "-c", "pnpm start"]
 deploymentTarget = "cloudrun"
 ignorePorts = false 

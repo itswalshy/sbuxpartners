@@ -16,10 +16,10 @@ This is a Next.js application that provides OCR (Optical Character Recognition) 
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Run the development server
-npm run dev
+pnpm dev
 ```
 
 ## Deployment
