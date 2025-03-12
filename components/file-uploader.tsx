@@ -24,7 +24,7 @@ export default function FileUploader({ onFileProcessed, isProcessing }: FileUplo
   const [ocrProgress, setOcrProgress] = useState<number>(0)
   const [extractedText, setExtractedText] = useState<string>("")
   const [showDebug, setShowDebug] = useState(false)
-  const [ocrMethod, setOcrMethod] = useState<"tesseract" | "ocrspace" | "mistral">("ocrspace")
+  const [ocrMethod, setOcrMethod] = useState<"tesseract" | "ocrspace" | "mistral" | "ocrmypdf">("ocrspace")
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { toast } = useToast()
 
@@ -78,17 +78,25 @@ export default function FileUploader({ onFileProcessed, isProcessing }: FileUplo
           text = await processWithOCRSpace(file)
         } else if (ocrMethod === "mistral") {
           text = await processPdfWithMistralOCR(file)
+        } else if (ocrMethod === "ocrmypdf") {
+          text = await processWithOCRmyPDF(file)
         } else {
           text = await processPdfWithOCR(file)
         }
       } else if (file.type.startsWith("image/")) {
-        const methodName = ocrMethod === "ocrspace" ? "OCR.space" : ocrMethod === "mistral" ? "Mistral OCR" : "Tesseract"
+        const methodName = 
+          ocrMethod === "ocrspace" ? "OCR.space" : 
+          ocrMethod === "mistral" ? "Mistral OCR" : 
+          ocrMethod === "ocrmypdf" ? "OCRmyPDF" : 
+          "Tesseract"
         setProcessingStatus(`Processing image with ${methodName}...`)
         
         if (ocrMethod === "ocrspace") {
           text = await processWithOCRSpace(file)
         } else if (ocrMethod === "mistral") {
           text = await processWithMistralOCR(file)
+        } else if (ocrMethod === "ocrmypdf") {
+          text = await processWithOCRmyPDF(file)
         } else {
           text = await processImageWithOCR(file)
         }
@@ -355,13 +363,63 @@ export default function FileUploader({ onFileProcessed, isProcessing }: FileUplo
     }
   }
 
+  const processWithOCRmyPDF = async (file: File): Promise<string> => {
+    try {
+      setProcessingStatus("Preparing file for OCRmyPDF...")
+      setOcrProgress(20)
+
+      // Convert file to base64
+      const base64Data = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => {
+          if (typeof reader.result === 'string') {
+            // Remove the data URL prefix (e.g., "data:image/jpeg;base64,")
+            const base64 = reader.result.split(',')[1]
+            resolve(base64)
+          } else {
+            reject(new Error("Failed to convert file to base64"))
+          }
+        }
+        reader.onerror = error => reject(error)
+      })
+
+      setProcessingStatus("Sending to OCRmyPDF...")
+      setOcrProgress(40)
+
+      // Call our OCRmyPDF API endpoint
+      const response = await fetch('/api/ocrmypdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          image: base64Data,
+          contentType: file.type 
+        })
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to process with OCRmyPDF')
+      }
+
+      setOcrProgress(80)
+      const data = await response.json()
+      
+      setOcrProgress(100)
+      return data.text
+    } catch (error) {
+      console.error("OCRmyPDF error:", error)
+      throw new Error("Failed to process with OCRmyPDF")
+    }
+  }
+
   return (
     <div className="space-y-4">
       <div className="mb-4">
         <h3 className="text-sm font-medium mb-2">OCR Method</h3>
         <RadioGroup 
           value={ocrMethod} 
-          onValueChange={(value: "tesseract" | "ocrspace" | "mistral") => setOcrMethod(value)}
+          onValueChange={(value: "tesseract" | "ocrspace" | "mistral" | "ocrmypdf") => setOcrMethod(value)}
           className="flex flex-wrap gap-4"
         >
           <div className="flex items-center space-x-2">
@@ -371,6 +429,10 @@ export default function FileUploader({ onFileProcessed, isProcessing }: FileUplo
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="mistral" id="mistral" />
             <Label htmlFor="mistral">Mistral OCR</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="ocrmypdf" id="ocrmypdf" />
+            <Label htmlFor="ocrmypdf">OCRmyPDF</Label>
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="tesseract" id="tesseract" />
@@ -474,6 +536,8 @@ export default function FileUploader({ onFileProcessed, isProcessing }: FileUplo
             "OCR.space provides high-accuracy text extraction with excellent table recognition and support for multiple languages."
           ) : ocrMethod === "mistral" ? (
             "Mistral OCR provides state-of-the-art accuracy for document processing, including tables and structured data."
+          ) : ocrMethod === "ocrmypdf" ? (
+            "OCRmyPDF is optimized for PDF documents and provides high-quality text layer addition to scanned PDFs."
           ) : (
             "Tesseract.js runs in the browser but may have limited accuracy. For better results, try OCR.space or Mistral OCR."
           )}

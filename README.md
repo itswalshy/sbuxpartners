@@ -5,6 +5,7 @@ This is a Next.js application that provides OCR (Optical Character Recognition) 
 - Google Vision
 - Mistral OCR
 - OCR Space
+- OCRmyPDF
 
 ## Features
 
