@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "export": "next build",
     "download-models": "node scripts/download-models.js",
     "generate-test": "node scripts/generate-test-image.js",
     "postinstall": "npm run download-models && npm run generate-test"
